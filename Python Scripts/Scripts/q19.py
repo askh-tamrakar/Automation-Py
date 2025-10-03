@@ -32,12 +32,7 @@ def helper():
         if cmd == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
-        else:
-            print("\nListing the Variable... \n")
-            if len(sys.argv) > 1:
-                read_env(sys.argv[1])
-            else:
-                read_env()
+        
 
 def main():
     cmd_executor.execute("clear")

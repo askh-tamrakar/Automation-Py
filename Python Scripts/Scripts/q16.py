@@ -6,16 +6,17 @@
 
 # Main function to perform the task in given question
 from Scripts import q1 as cmd_executor
-import os
-import sys
+import boto3
 
-def read_env(var_name=None):
-    if var_name:
-        value = os.environ.get(var_name, "Not Found")
-        print(f"{var_name} = {value}")
-    else:  # Read all environment variables
-        for key, value in os.environ.items():
-            print(f"{key} = {value}")
+def list_buckets():
+    s3 = boto3.client("s3")
+    response = s3.list_buckets()
+    for bucket in response["Buckets"]:
+        print(bucket["Name"])
+
+if __name__ == "__main__":
+    list_buckets()
+
 
 
 #===================================================================================================================
@@ -34,12 +35,7 @@ def helper():
         if cmd == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
-        else:
-            print("\nListing the Variable... \n")
-            if len(sys.argv) > 1:
-                read_env(sys.argv[1])
-            else:
-                read_env()
+        
 
 def main():
     cmd_executor.execute("clear")

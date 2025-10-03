@@ -6,16 +6,21 @@
 
 # Main function to perform the task in given question
 from Scripts import q1 as cmd_executor
-import os
-import sys
+import json
+import yaml
 
-def read_env(var_name=None):
-    if var_name:
-        value = os.environ.get(var_name, "Not Found")
-        print(f"{var_name} = {value}")
-    else:  # Read all environment variables
-        for key, value in os.environ.items():
-            print(f"{key} = {value}")
+data = {"name": "Alice", "age": 30}
+
+# JSON
+json_str = json.dumps(data)
+print("JSON Serialized:", json_str)
+print("JSON Deserialized:", json.loads(json_str))
+
+# YAML
+yaml_str = yaml.dump(data)
+print("YAML Serialized:", yaml_str)
+print("YAML Deserialized:", yaml.safe_load(yaml_str))
+
 
 
 #===================================================================================================================
@@ -34,12 +39,7 @@ def helper():
         if cmd == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
-        else:
-            print("\nListing the Variable... \n")
-            if len(sys.argv) > 1:
-                read_env(sys.argv[1])
-            else:
-                read_env()
+        
 
 def main():
     cmd_executor.execute("clear")
