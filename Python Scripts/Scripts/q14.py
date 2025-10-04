@@ -8,7 +8,7 @@
 from Scripts import q1 as cmd_executor
 import time
 
-def tail_f(file):
+def read_logs(file):
     with open(file, "r") as f:
         f.seek(0, 2)
         while True:
@@ -16,11 +16,6 @@ def tail_f(file):
             if line:
                 print(line, end="")
             time.sleep(0.5)
-
-if __name__ == "__main__":
-    tail_f("app.log")
-
-
 
 #===================================================================================================================
 
@@ -33,11 +28,19 @@ def helper():
 
     while not exit:
         print("\nInput 0 to go back to Menu")
-        cmd = input("\n~~~> Type Variable name OR leave Blank to list ALL ===> ").strip()
+        file_path = input("\n~~~> Give path to your Log File ===> ").strip()
         
-        if cmd == '0':
+        if file_path == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
+        else:
+            print("Reading logs from the file....")
+            try:
+                read_logs(file_path)
+            except Exception as error:
+                print(f"/nAn error occured: {error}")
+
+
         
 
 def main():

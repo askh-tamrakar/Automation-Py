@@ -6,10 +6,12 @@
 # Main function to perform the task in given question
 from encodings import utf_16
 from Scripts import q1 as cmd_executor
+from Scripts import q20 as json_validator
 import json
 
 def load_config_from_file(file_path):
     try:
+        json_validator.validate_file(file_path)  
         with open(file_path, "r") as f:
             config = json.load(f)
         print("\nServer Configurations Loaded from File: \n")

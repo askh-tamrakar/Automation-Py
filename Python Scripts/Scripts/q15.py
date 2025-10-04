@@ -9,20 +9,35 @@ from Scripts import q1 as cmd_executor
 import json
 import yaml
 
-data = {"name": "Alice", "age": 30}
+def serialize_deserialize(data, type='j', mode='s'):
+    try:
+        if type.lower() == 'j':
+            if mode.lower() == 's':
+                return json.dumps(data)
 
-# JSON
-json_str = json.dumps(data)
-print("JSON Serialized:", json_str)
-print("JSON Deserialized:", json.loads(json_str))
+            elif mode.lower() == 'd':
+                return json.loads(data)
 
-# YAML
-yaml_str = yaml.dump(data)
-print("YAML Serialized:", yaml_str)
-print("YAML Deserialized:", yaml.safe_load(yaml_str))
+            else:
+                raise ValueError("Mode must be 's' for Serialize or 'd' for Deserialize.")
 
+        elif type.lower() == 'y':
+            if mode.lower() == 's':
+                return yaml.dump(data)
 
+            elif mode.lower() == 'd':
+                return yaml.safe_load(data)
 
+            else:
+                raise ValueError("Mode must be 's' for Serialize or 'd' for Deserialize.")
+
+        else:
+            raise ValueError("Unsupported type. Use 'j' for JSON or 'y' for YAML.")
+
+    except Exception as error:
+        print (f"Error during {mode} operation: {error}")
+        return None
+    
 #===================================================================================================================
 
 
@@ -34,11 +49,15 @@ def helper():
 
     while not exit:
         print("\nInput 0 to go back to Menu")
-        cmd = input("\n~~~> Type Variable name OR leave Blank to list ALL ===> ").strip()
-        
-        if cmd == '0':
+        print("\n~~~> Choose File Type - JSON (j) or YAML (y), \and Mode - Serialize (s) or Deserialize (d): ")
+        user = input("=> ").strip().lower()
+
+        if user == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
+
+        file, mode = user.split(',')
+
         
 
 def main():

@@ -13,8 +13,8 @@ import smtplib
 def send_email_alert():
     msg = MIMEText("High CPU Usage Detected!")
     msg["Subject"] = "ALERT: CPU Usage"
-    msg["From"] = "you@example.com"
-    msg["To"] = "admin@example.com"
+    msg["From"] = "aksh.tamrakar@gmail.com"
+    msg["To"] = "akshansh.tamrakar@withaspirenetexis.com"
 
     with smtplib.SMTP("localhost") as server:
         server.send_message(msg)

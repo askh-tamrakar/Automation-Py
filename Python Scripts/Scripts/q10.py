@@ -7,17 +7,35 @@
 # Main function to perform the task in given question
 from Scripts import q1 as cmd_executor
 import zipfile
-import tarfile
+import os
 
-def compress_zip():
-    with zipfile.ZipFile("files.zip", "w") as z:
-        z.write("sample.txt")
-    print("Compressed to files.zip")
+def compress_zip(files, output_zip=""):  
+    """Compress files into a ZIP archive."""
 
-def extract_zip():
-    with zipfile.ZipFile("files.zip", "r") as z:
-        z.extractall("extracted_zip")
-    print("Extracted files.zip")
+    with zipfile.ZipFile(output_zip, "w", zipfile.ZIP_DEFLATED) as zip:
+        for file in files:
+            if os.path.exists(file):
+                zip.write(file, os.path.basename(file))
+                print(f"Added {file} to the {output_zip}")
+            else:
+                print(F"FIle not Found: {file}")
+    print(f"\n Compressed to {output_zip}")
+
+def extract_zip(zipFile_path, extract_to_dir="."):
+    """Extract files from a ZIP archive."""
+
+    if not os.path.exists(zipFile_path):
+        print(f"ZIP file not found: {zipFile_path}")
+        return
+    
+    folder_name = os.path.splitext(os.path.basename(zipFile_path))[0]
+    extract_to_dir = os.path.join(extract_to_dir, folder_name)
+
+    os.makedirs(extract_to_dir, exist_ok=True)
+
+    with zipFile_path.ZipFile(zipFile_path, "r") as zip:
+        zip.extractall(extract_to_dir)
+        print(f"\n Extracted to /{extract_to_dir}")
 
 
 #===================================================================================================================
@@ -30,18 +48,34 @@ def helper():
     exit = False
 
     while not exit:
-        print("\nInput 0 to go back to Menu")
-        cmd = input("\n~~~> Give the file that is to be extracted :\n===> ").strip()
+        print("\n--> Compression / Decompression Tool <--")
+        print("1. To Extract from Zip archive")
+        print("2. To Compress into Zip archive")
+        print("0. Exit")
+
+        choice = input("\n===> Enter Your Choice: \n=>").strip()
+
         
-        if cmd == '0':
+        if choice == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
+            break
+
+        elif choice == "1":
+            files = input("\nEnter file paths (comma-separated): ").split(",")
+            filies = [f.strip() for f in files if f.strip()]
+            output_zip = input("Enter ZIP filename (default: archive.zip): ").strip() or "archive.zip"
+            compress_zip(files, output_zip)
+
+        elif choice == "2":
+            zipFile_path = input("Enter path to the ZIP file: ").strip()
+            extract_dir = input("Enter extract directory (default: ./extracted): ").strip() or "./extracted"
+            os.makedirs(extract_dir, exist_ok=True)
+            extract_zip(zipFile_path, extract_dir)
+
         else:
-            print("\nListing the Variable... \n")
-            if len(sys.argv) > 1:
-                read_env(sys.argv[1])
-            else:
-                read_env()
+            print("\n!!!Please give a valid choice. Try again!!!\n")
+        
 
 def main():
     cmd_executor.execute("clear")

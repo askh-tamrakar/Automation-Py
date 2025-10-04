@@ -12,6 +12,7 @@
     <Name>Python Scripts</Name>
     <RootNamespace>Python Scripts</RootNamespace>
     <InterpreterId>Global|PythonCore|3.13</InterpreterId>
+    <SuppressPackageInstallationPrompt>True</SuppressPackageInstallationPrompt>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

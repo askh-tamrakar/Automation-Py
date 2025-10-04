@@ -6,42 +6,51 @@
 
 # Main function to perform the task in given question
 from Scripts import q1 as cmd_executor
-import argparse
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description="Example Argparse Script")
-    parser.add_argument("--name", required=True, help="Your name")
-    parser.add_argument("--age", type=int, help="Your age")
-    parser.add_argument("-h", "--host", )
+import argparse
+import sys
+
+def get_arguments():
+    """
+    Parses command-line arguments and returns them as a dictionary.
+    Other scripts can import and use this function.
+    """
+
+    parser = argparse.ArgumentParser(
+        description="Command-line argument parser for Python Utility Scripts (1-20)."
+    )
+
+    parser.add_argument(
+        "-s", "--script",
+        type=str,
+        help="Script number to run (1-20)."
+    )
+
     args = parser.parse_args()
 
-    print(f"Hello {args.name}, Age: {args.age}")
+    return args.script
 
 
 #===================================================================================================================
 
 
-
-
-# Helper function to run the script
-def helper():
-    exit = False
-
-    while not exit:
-        print("\nInput 0 to go back to Menu")
-        cmd = input("\n~~~> Type Variable name OR leave Blank to list ALL ===> ").strip()
-        
-        if cmd == '0':
-            print("\n!!!!!!!! Exiting the script. ")
-            exit = True
-        
-            
-
 def main():
+    """
+    If q9.py is run directly, show a help demo.
+    """
     cmd_executor.execute("clear")
-    parse_arguments()
+    args = get_arguments()
+
+    if not args or args == '9':
+        print("\nExample usage:")
+        print("   python main.py -s 5")
+        sys.exit()
+
+    print(f"Script selected: {args}")
+
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-   
+
+
 if __name__ == "__main__":
-   main()
+    main()

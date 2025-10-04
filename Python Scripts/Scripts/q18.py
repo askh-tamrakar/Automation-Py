@@ -9,14 +9,11 @@ from Scripts import q1 as cmd_executor
 import random
 import string
 
-def generate_password(length=12):
+def generate_password(length):
     chars = string.ascii_letters + string.digits + string.punctuation
-    return "".join(random.choice(chars) for _ in range(length))
-
-if __name__ == "__main__":
-    print("Generated Password:", generate_password())
-
-
+    password = "".join(random.choice(chars) for _ in range(length))
+    
+    return password
 
 #===================================================================================================================
 
@@ -28,12 +25,24 @@ def helper():
     exit = False
 
     while not exit:
+        print("\n<-- Password Generation Application -->")
         print("\nInput 0 to go back to Menu")
-        cmd = input("\n~~~> Type Variable name OR leave Blank to list ALL ===> ").strip()
+        length = input("\n~~~> Give the length of the password > 4 (default = 12):   ===> ").strip()
         
-        if cmd == '0':
+        if length == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
+        else:
+            try:
+                length = int(length) if length else 12
+                if length < 4:
+                    print("Password length should be at least 4.")
+                    continue
+                password = generate_password(length)
+                print(f"\nGenerated Password: {password}\n")
+            except ValueError:
+                print("Please enter a valid number for length.")
+            
         
 def main():
     cmd_executor.execute("clear")

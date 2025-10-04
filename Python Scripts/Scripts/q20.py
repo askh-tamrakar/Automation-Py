@@ -10,6 +10,7 @@ import json
 import yaml
 
 def validate_file(file):
+    print("\nValidating the file....\n")
     try:
         if file.endswith(".json"):
             with open(file) as f:
@@ -20,11 +21,6 @@ def validate_file(file):
         print(f"{file} is valid!")
     except Exception as e:
         print(f"{file} is INVALID: {e}")
-
-if __name__ == "__main__":
-    validate_file("server_config.json")
-
-
 
 #===================================================================================================================
 
@@ -37,11 +33,15 @@ def helper():
 
     while not exit:
         print("\nInput 0 to go back to Menu")
-        cmd = input("\n~~~> Type Variable name OR leave Blank to list ALL ===> ").strip()
+        file_path = input("\n~~~> Give path to a JSON or YAML file\n===> ").strip()
         
-        if cmd == '0':
+        if file_path == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
+        else:
+            validate_file(file_path)
+
+
         
 
 def main():

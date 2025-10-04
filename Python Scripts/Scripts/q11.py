@@ -5,21 +5,23 @@
 
 
 # Main function to perform the task in given question
+from paramiko.auth_strategy import Password
 from Scripts import q1 as cmd_executor
 import paramiko
 
-def ssh_command(host, user, password, command):
+def ssh_connect(host, user, password):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(host, username=user, password=password)
-    stdin, stdout, stderr = ssh.exec_command(command)
+    print("<-- Connection Successfull... -->")
+    return ssh
+
+def ssh_command(cmd, ssh):
+    stdin, stdout, stderr = ssh.exec_command(cmd)
     print(stdout.read().decode())
+
+def shut_server(ssh):
     ssh.close()
-
-if __name__ == "__main__":
-    ssh_command("127.0.0.1", "user", "password", "ls -l")
-
-
 
 #==================================================================================================================================
 
@@ -32,17 +34,28 @@ def helper():
 
     while not exit:
         print("\nInput 0 to go back to Menu")
-        cmd = input("\n~~~> Type Variable name OR leave Blank to list ALL ===> ").strip()
-        
-        if cmd == '0':
+        print("\n~~~> Give the credentials for your SSH server ===> \n")
+
+        credentials = input("Entert your: Host (IP/Domain), Username, Password \n-->")
+
+        host, user, password = credentials.split(',')
+
+        if host == '0' or user == '0' or password == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
+
         else:
-            print("\nListing the Variable... \n")
-            if len(sys.argv) > 1:
-                read_env(sys.argv[1])
-            else:
-                read_env()
+            try:
+                ssh = ssh_connect(host, user, password)
+                while True:
+                    command = input("\nEnter Command to execute: ").strip()
+                    if command.lower() in ['exit', 'quit']:
+                        print("\nExiting command execution.")
+                        break
+                    ssh_command(command, ssh)
+                shut_server(ssh)
+            except Exception as error:
+                print(f"\nAn error occurred: {error}")
 
 def main():
     cmd_executor.execute("clear")

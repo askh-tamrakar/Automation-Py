@@ -1,5 +1,5 @@
 # Question 12: How do you schedule a Python script to run at a specific time daily? 
-# (using schedule module or cron + Python)
+# (using schedule module or Cron + Python)
 
 
 
@@ -35,12 +35,7 @@ def helper():
         if cmd == '0':
             print("\n!!!!!!!! Exiting the script. ")
             exit = True
-        else:
-            print("\nListing the Variable... \n")
-            if len(sys.argv) > 1:
-                read_env(sys.argv[1])
-            else:
-                read_env()
+           
 
 def main():
     cmd_executor.execute("clear")
